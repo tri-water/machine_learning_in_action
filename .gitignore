@@ -1,3 +1,6 @@
 Machine_Learning_in_Action.pdf
 data
 *.pyc
+Chapter3_tree.py
+*.pickle
+*Notebook-checkpoint.ipynb
