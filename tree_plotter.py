@@ -19,12 +19,12 @@ def plot_node(ax, node_text, center_pt, parent_pt, node_type):
 def get_num_leafs(tree: dict):
     num_leaf = 0
 
-    label = list(tree)[0]
-    values = list(tree[label])
+    feature_label = list(tree)[0]
+    feature_values = list(tree[feature_label])
 
-    for value in values:
-        if type(tree[label][value]) is dict:
-            num_leaf += get_num_leafs(tree[label][value])
+    for feature_value in feature_values:
+        if type(tree[feature_label][feature_value]) is dict:
+            num_leaf += get_num_leafs(tree[feature_label][feature_value])
         else:
             num_leaf += 1
 
@@ -34,12 +34,12 @@ def get_num_leafs(tree: dict):
 def get_tree_depth(tree: dict):
     depth = 1
 
-    label = list(tree)[0]
-    values = list(tree[label])
+    feature_label = list(tree)[0]
+    feature_values = list(tree[feature_label])
 
-    for value in values:
-        if type(tree[label][value]) is dict:
-            new_depth = get_tree_depth(tree[label][value]) + 1
+    for feature_value in feature_values:
+        if type(tree[feature_label][feature_value]) is dict:
+            new_depth = get_tree_depth(tree[feature_label][feature_value]) + 1
             if new_depth > depth:
                 depth = new_depth
 
@@ -54,32 +54,48 @@ def plot_mid_text(ax, cntr_pt, parent_pt, txt_string):
 
 
 def plot_tree(ax, tree, x_off, y_off, total_w, total_d, parent_pt, node_text):
+    """Visualise the decision tree
+
+    params
+    ======
+    ax: matplotlib ax
+    tree: the decision tree to visualise
+    x_off: x position of the most left leaf in the tree
+    y_off: y position of the parent of the tree
+    total_w: the total number of leafs of the original tree
+    total_d: the depth of the origianl tree
+    parent_pt: the position of the parent node for the tree
+    node_text: the value split the sub-dataset from the original dataset
+    """
 
     num_leafs = get_num_leafs(tree)
-    label = list(tree)[0]
+    feature_label = list(tree)[0]
 
     cntr_pt = (x_off + (1. + num_leafs)/2./total_w, y_off)
     plot_mid_text(ax, cntr_pt, parent_pt, node_text)
-    plot_node(ax, label, cntr_pt, parent_pt, decision_node)
+    plot_node(ax, feature_label, cntr_pt, parent_pt, decision_node)
     
-    values = list(tree[label])
+    feature_values = list(tree[feature_label])
 
     y_off = y_off - 1./total_d
-    for value in values:
-        if type(tree[label][value]) is dict:
-            sub_tree = tree[label][value]
+    for feature_value in feature_values:
+        if type(tree[feature_label][feature_value]) is dict:
+            sub_tree = tree[feature_label][feature_value]
             sub_tree_w = get_num_leafs(sub_tree)
             x_off += sub_tree_w/total_w
             plot_tree(ax, sub_tree, x_off - sub_tree_w/total_w, y_off, 
-                      total_w, total_d, cntr_pt, str(value))
+                      total_w, total_d, cntr_pt, str(feature_value))
         else:
             x_off += 1.0/total_w
-            plot_node(ax, tree[label][value], (x_off, y_off), cntr_pt, 
-                      leaf_node)
-            plot_mid_text(ax, (x_off, y_off), cntr_pt, str(value))
+            plot_node(ax, tree[feature_label][feature_value], (x_off, y_off), 
+                      cntr_pt, leaf_node)
+            plot_mid_text(ax, (x_off, y_off), cntr_pt, str(feature_value))
 
 
 def create_plot(input_tree):
+    """Start the creation of a tree from this function
+    """
+    
     fig = plt.figure(facecolor='white')
     fig.clf()
     ax_props = dict(xticks=[], yticks=[])
