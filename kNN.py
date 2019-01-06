@@ -39,7 +39,10 @@ def file2matrix(loc, file_name):
             return_mat.append(line[:-1])
             return_labels.append(line[-1])
 
-    return_mat = np.array(return_mat, dtype=np.float32)
+    try:
+        return_mat = np.array(return_mat, dtype=np.float32)
+    except ValueError:
+        return_mat = np.array(return_mat, dtype=object)
     return_labels = np.array(return_labels)
     return return_mat, return_labels
 
