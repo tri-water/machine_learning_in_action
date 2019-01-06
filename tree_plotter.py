@@ -5,6 +5,16 @@ leaf_node = dict(boxstyle='round4', fc='0.8')
 arrow_args = dict(arrowstyle='<-')
 
 def plot_node(ax, node_text, center_pt, parent_pt, node_type):
+    """plot nodes of pre-defined types
+
+    params:
+    =======
+    ax: matplotlib ax
+    node_text: text of the node to plot
+    center_pt: position of the node to plot
+    parent_pt: position of the parent node
+    node_type: pre-defined settings for note plotting
+    """
     ax.annotate(node_text, 
                 xy=parent_pt, 
                 xycoords='axes fraction',
