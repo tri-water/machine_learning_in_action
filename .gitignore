@@ -2,5 +2,7 @@ Machine_Learning_in_Action.pdf
 data
 *.pyc
 Chapter3_tree.py
+Chapter2_kNN.py
 *.pickle
 *Notebook-checkpoint.ipynb
+settings.json
