@@ -6,3 +6,8 @@ Chapter2_kNN.py
 *.pickle
 *Notebook-checkpoint.ipynb
 settings.json
+Chapter4_NaiveBayes.py
+Chapter5_logistic_regression.py
+.ipynb_checkpoints/
+Chapter6_SVM.py
+svmMLiA_.py
